@@ -49,5 +49,6 @@ class ArrayList:
         i = 0
         while i < self.size:
             result += [self.data[i]]
-        i += 1
+            i += 1
+
         return result
