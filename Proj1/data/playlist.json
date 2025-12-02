@@ -1,0 +1,245 @@
+{
+    "playlists": [
+        {
+            "name": "First",
+            "tracks": [
+                {
+                    "title": "scdc",
+                    "artist": "vrgr",
+                    "album": "sdeve",
+                    "duration": "03:45"
+                },
+                {
+                    "title": "Sparks",
+                    "artist": "Coldplay",
+                    "album": "Parachutes",
+                    "duration": "03:47"
+                }
+            ]
+        },
+        {
+            "name": "Playlist#3",
+            "tracks": [
+                {
+                    "title": "scdc",
+                    "artist": "vrgr",
+                    "album": "sdeve",
+                    "duration": "03:45"
+                },
+                {
+                    "title": "Sparks",
+                    "artist": "Coldplay",
+                    "album": "Parachutes",
+                    "duration": "03:47"
+                }
+            ]
+        },
+        {
+            "name": "Playlist#4",
+            "tracks": [
+                {
+                    "title": "ytdr",
+                    "artist": "yfy",
+                    "album": "ugu",
+                    "duration": "99"
+                }
+            ]
+        },
+        {
+            "name": "Playlist#5",
+            "tracks": [
+                {
+                    "title": "scdc",
+                    "artist": "vrgr",
+                    "album": "sdeve",
+                    "duration": "03:45"
+                },
+                {
+                    "title": "Sparks",
+                    "artist": "Coldplay",
+                    "album": "Parachutes",
+                    "duration": "03:47"
+                }
+            ]
+        },
+        {
+            "name": "Playlist#6",
+            "tracks": [
+                {
+                    "title": "ytdr",
+                    "artist": "yfy",
+                    "album": "ugu",
+                    "duration": "99"
+                }
+            ]
+        },
+        {
+            "name": "Playlist#7",
+            "tracks": [
+                {
+                    "title": "scdc",
+                    "artist": "vrgr",
+                    "album": "sdeve",
+                    "duration": "03:45"
+                },
+                {
+                    "title": "Sparks",
+                    "artist": "Coldplay",
+                    "album": "Parachutes",
+                    "duration": "03:47"
+                }
+            ]
+        },
+        {
+            "name": "Playlist#8",
+            "tracks": [
+                {
+                    "title": "ytdr",
+                    "artist": "yfy",
+                    "album": "ugu",
+                    "duration": "99"
+                }
+            ]
+        },
+        {
+            "name": "Playlist#9",
+            "tracks": [
+                {
+                    "title": "scdc",
+                    "artist": "vrgr",
+                    "album": "sdeve",
+                    "duration": "03:45"
+                },
+                {
+                    "title": "Sparks",
+                    "artist": "Coldplay",
+                    "album": "Parachutes",
+                    "duration": "03:47"
+                }
+            ]
+        },
+        {
+            "name": "Playlist#10",
+            "tracks": [
+                {
+                    "title": "ytdr",
+                    "artist": "yfy",
+                    "album": "ugu",
+                    "duration": "99"
+                }
+            ]
+        },
+        {
+            "name": "Playlist#11",
+            "tracks": [
+                {
+                    "title": "scdc",
+                    "artist": "vrgr",
+                    "album": "sdeve",
+                    "duration": "03:45"
+                },
+                {
+                    "title": "Sparks",
+                    "artist": "Coldplay",
+                    "album": "Parachutes",
+                    "duration": "03:47"
+                }
+            ]
+        },
+        {
+            "name": "Playlist#12",
+            "tracks": [
+                {
+                    "title": "ytdr",
+                    "artist": "yfy",
+                    "album": "ugu",
+                    "duration": "99"
+                }
+            ]
+        },
+        {
+            "name": "Playlist#13",
+            "tracks": [
+                {
+                    "title": "scdc",
+                    "artist": "vrgr",
+                    "album": "sdeve",
+                    "duration": "03:45"
+                },
+                {
+                    "title": "Sparks",
+                    "artist": "Coldplay",
+                    "album": "Parachutes",
+                    "duration": "03:47"
+                }
+            ]
+        },
+        {
+            "name": "Playlist#14",
+            "tracks": [
+                {
+                    "title": "ytdr",
+                    "artist": "yfy",
+                    "album": "ugu",
+                    "duration": "99"
+                }
+            ]
+        },
+        {
+            "name": "Playlist#15",
+            "tracks": [
+                {
+                    "title": "scdc",
+                    "artist": "vrgr",
+                    "album": "sdeve",
+                    "duration": "03:45"
+                },
+                {
+                    "title": "Sparks",
+                    "artist": "Coldplay",
+                    "album": "Parachutes",
+                    "duration": "03:47"
+                }
+            ]
+        },
+        {
+            "name": "Playlist#16",
+            "tracks": [
+                {
+                    "title": "ytdr",
+                    "artist": "yfy",
+                    "album": "ugu",
+                    "duration": "99"
+                }
+            ]
+        },
+        {
+            "name": "Playlist#17",
+            "tracks": [
+                {
+                    "title": "scdc",
+                    "artist": "vrgr",
+                    "album": "sdeve",
+                    "duration": "03:45"
+                },
+                {
+                    "title": "Sparks",
+                    "artist": "Coldplay",
+                    "album": "Parachutes",
+                    "duration": "03:47"
+                }
+            ]
+        },
+        {
+            "name": "Amama",
+            "tracks": [
+                {
+                    "title": "Sparks",
+                    "artist": "Coldplay",
+                    "album": "Parachutes",
+                    "duration": "03:47"
+                }
+            ]
+        }
+    ]
+}
