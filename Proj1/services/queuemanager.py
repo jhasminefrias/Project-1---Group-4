@@ -1,104 +1,172 @@
-from services.basemanager import BaseManager
-from data_struc.arraylist import ArrayList
-from utils.pagination import paginate
-from services.libmanager import LibraryManager
+import os
+import sys
 
-class QueueManager(BaseManager):
-    def __init__(self):
-        super().__init__()
-        self.queue = ArrayList()  # stores all tracks in queue
-        self.items = self.queue   # for BaseManager playback
-        self.current_index = 0    # tracks current playing position
-        self.library = LibraryManager("data/library.json")
+# Ensure project root is on sys.path so sibling packages like data_struc
+# can be imported when this file is executed directly or from different CWDs.
+project_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+if project_root not in sys.path:
+    sys.path.insert(0, project_root)
 
-    # ------------------- ADD TRACK TO QUEUE -------------------
-    def add_to_queue_from_library_or_manual(self, library_manager):
-        print("Do you want to add track from library or manually?")
-        choice = input("Enter 'l' for library, 'm' for manual: ").strip().lower()
-        
-        if choice == 'l':
-            page = 1
-            tracks = self.library.tracks.to_list()
-            paginate(tracks, page=page, page_size=10, title="LIBRARY TRACKS")
-            # library_manager.display_tracks()
-            try:
-                index = int(input("Enter track number to add: ")) - 1
-                track_dict = library_manager.tracks.get(index)
-            except:
-                print("Invalid track number.")
-                return
-            self.queue.add(track_dict)
-            print(f"Added '{track_dict['title']}' to the queue.")
-        
-        elif choice == 'm':
-            title = input("Track title: ")
-            artist = input("Artist: ")
-            album = input("Album: ")
-            duration = input("Duration (mm:ss): ")
-            t_dict = {"title": title, "artist": artist, "album": album, "duration": duration}
-            self.queue.add(t_dict)
-            print(f"Added '{title}' to the queue.")
-        else:
-            print("Invalid choice.")
+import json
+from data_struc.queueDS import MusicQueue
 
-    # ------------------- DISPLAY QUEUE -------------------
-    def display_queue(self):
-        if self.queue.length() == 0:
-            print("Queue is empty.")
-            return
-        print("Queue:")
-        for i in range(self.queue.length()):
-            t = self.queue.get(i)
-            marker = ">>" if i == self.current_index else "  "
-            print(f"{marker} {i + 1}. {t['title']} - {t['artist']} ({t['album']}) [{t['duration']}]")
 
-    # ------------------- PLAYBACK -------------------
-    def play_current(self):
-        if self.queue.length() == 0:
-            print("Queue is empty.")
-            return
-        t = self.queue.get(self.current_index)
-        print(f"Now Playing: {t['title']} - {t['artist']} ({t['album']}) [{t['duration']}]")
-
-    def next_track(self):
-        if self.queue.length() == 0:
-            print("Queue is empty.")
-            return
-        self.current_index += 1
-        if self.current_index >= self.queue.length():
-            self.current_index = 0
-        self.play_current()
-
-    def previous_track(self):
-        if self.queue.length() == 0:
-            print("Queue is empty.")
-            return
-        self.current_index -= 1
-        if self.current_index < 0:
-            self.current_index = self.queue.length() - 1
-        self.play_current()
-
-    def remove_track(self):
-        if self.queue.length() == 0:
-            print("Queue is empty.")
-            return
-
-        self.display_queue()
+class QueueManager:
+    def __init__(self, filename):
+        self.filename = filename
+        # Use MusicQueue to manage its own state file (queue_state.json by default)
+        self.queue = MusicQueue()
+        # load existing state if present
         try:
-            index = int(input("Enter track number to remove: ")) - 1
-            removed = self.queue.get(index)
-            self.queue.remove(index)
+            self.queue.load_state()
+        except Exception:
+            # fail silently; queue will start empty
+            pass
 
-            # Adjust current_index if needed
-            if index < self.current_index:
-                self.current_index -= 1
-                print("List is Empty!")
-            elif index == self.current_index:
-                # Keep current_index in bounds
-                if self.current_index >= self.queue.length():
-                    self.current_index = 0
 
-            print(f"Removed '{removed['title']}' from the queue.")
+    def add_to_queue(self, track):
+        # use MusicQueue.add_track and persist using its save_state
+        added = self.queue.add_track(track)
+        if added:
+            try:
+                self.queue.save_state()
+            except Exception:
+                pass
+        return added
 
-        except (IndexError, ValueError):
-            print("Invalid track number.")
+
+    def save(self):
+        # Persist using the MusicQueue's own save method
+        try:
+            self.queue.save_state()
+        except Exception:
+            # fallback: write a minimal file to self.filename if needed
+            try:
+                with open(self.filename, "w") as f:
+                    json.dump(
+                        {"tracks": [t.to_dict() for t in self.queue.get_tracks()]},
+                        f,
+                        indent=4
+                    )
+            except Exception:
+                pass
+
+
+# from services.basemanager import BaseManager
+# from utils.pagination import paginate
+# from services.libmanager import LibraryManager
+# from data_struc.queueDS import MusicQueue
+# from models.track import Track
+# import json
+
+
+# class QueueManager(BaseManager):
+#     def __init__(self):
+#         super().__init__()
+#         self.queue = MusicQueue()     # ✅ USE MusicQueue
+#         self.library = LibraryManager("data/library.json")
+
+#     # ---------------- ADD TRACK TO QUEUE ----------------
+#     def add_to_queue_from_library_or_manual(self, library_manager):
+#         print("Do you want to add track from library or manually?")
+#         choice = input("Enter 'l' for library, 'm' for manual: ").strip().lower()
+
+#         # ---------- FROM LIBRARY ----------
+#         if choice == 'l':
+#             page = 1
+#             tracks = library_manager.tracks.to_list()
+
+#             paginate(tracks, page=page, page_size=10, title="LIBRARY TRACKS")
+#             # with open ("data/queue_state.json", "w") as file:
+#             #     # data = json.dump(file, )
+#             #     json.dump({"tracks": tracks}, "data/queue_state.json", indent=4)
+
+
+#             try:
+#                 index = int(input("Enter track number to add: ")) - 1
+#                 track = library_manager.tracks.get(index)
+
+#                 self.save("Proj1/data/queue_state.json", track)
+#                 if isinstance(track, Track):
+#                     self.queue.add_track(track)
+#                     # self.save("Proj1/data/queue_state.json", track)
+#                     print(f"Added '{track.title}' to the queue.")
+#                 else:
+#                     print("Invalid track.")
+
+#             except:
+#                 print("Invalid track number.")
+
+#         # ---------- MANUAL ----------
+#         elif choice == 'm':
+#             title = input("Track title: ")
+#             artist = input("Artist: ")
+#             album = input("Album: ")
+#             duration = input("Duration (mm:ss): ")
+
+#             track = Track(title, artist, album, duration)
+#             self.queue.add_track(track)
+
+#             print(f"Added '{title}' to the queue.")
+
+#         else:
+#             print("Invalid choice.")
+
+#     # ---------------- DISPLAY QUEUE ----------------
+#     def display_queue(self):
+#         tracks = self.queue.get_tracks()
+
+#         if not tracks:
+#             print("Queue is empty.")
+#             return
+
+#         for i, t in enumerate(tracks):
+#             marker = ">>" if i == self.queue._MusicQueue__current_index else "  "
+#             print(f"{marker} {i + 1}. {t.title} - {t.artist} ({t.album}) [{t.duration}]")
+
+#     def save(self, file, track):
+#         with open (file, "w") as file:
+#             json.dump({"tracks": track}, file, indent=4)
+
+#     # ---------------- PLAYBACK ----------------
+#     def play_current(self):
+#         track = self.queue.get_current_track()
+
+#         if not track:
+#             print("Queue is empty.")
+#             return
+
+#         print(f"Now Playing: {track.title} - {track.artist} ({track.album}) [{track.duration}]")
+
+#     def next_track(self):
+#         track = self.queue.next_track()
+
+#         if track:
+#             print(f"Now Playing: {track.title} - {track.artist} ({track.album}) [{track.duration}]")
+
+#     def previous_track(self):
+#         track = self.queue.previous_track()
+
+#         if track:
+#             print(f"Now Playing: {track.title} - {track.artist} ({track.album}) [{track.duration}]")
+
+#     # ---------------- REMOVE TRACK ----------------
+#     def remove_track(self):
+#         tracks = self.queue.get_tracks()
+
+#         if not tracks:
+#             print("Queue is empty.")
+#             return
+
+#         self.display_queue()
+
+#         try:
+#             index = int(input("Enter track number to remove: ")) - 1
+#             removed = tracks[index]
+
+#             self.queue.remove_track(index)
+
+#             print(f"Removed '{removed.title}' from the queue.")
+
+#         except:
+#             print("Invalid track number.")
